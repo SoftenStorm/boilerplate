@@ -1,4 +1,5 @@
 import express from "express";
+import compression from "compression";
 import session from "express-session";
 import bodyParser from "body-parser";
 import lusca from "lusca";
