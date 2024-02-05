@@ -5,9 +5,10 @@ import {CodeHelper} from '../helpers/CodeHelper';
 import {NotificationHelper} from '../helpers/NotificationHelper';
 import {Project, DeclarationHelper} from '../helpers/DeclarationHelper';
 import {HierarchicalDataTable, HierarchicalDataRow, SourceType} from '../helpers/DataManipulationHelper';
+import React from 'react'; const _React = React;
+import {findDOMNode} from 'react-dom';
+import {createRoot} from 'react-dom/client';
 
-declare let React: any;
-declare let ReactDOM: any;
 declare let DataManipulationHelper: any;
 
 interface IBaseProps {
@@ -252,7 +253,7 @@ class Base extends React.Component {
         break;
       case 'popup':
         let container = document.createElement('div');
-        ReactDOM.render(React.createElement(DeclarationHelper.get(options.initClass), {data: results}, null), container);
+        createRoot(container).render(React.createElement(DeclarationHelper.get(options.initClass), {data: results}, null));
         document.getElementsByClassName('internal-fsb-begin')[0].appendChild(container.firstElementChild);
         break;
       case 'navigate':
@@ -269,12 +270,16 @@ class Base extends React.Component {
 DeclarationHelper.declare('Site', 'Components.Base', Base);
 
 class Button extends React.Component {
+  private references: any = {
+    button: null
+  };
+  
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
-    let button = ReactDOM.findDOMNode(this.refs.button);
+    let button = findDOMNode(this.references.button);
 
     if (this.props.onSubmitting) {
       button.addEventListener('submitting', this.props.onSubmitting, false);
@@ -292,7 +297,7 @@ class Button extends React.Component {
 
   protected render(): any {
     return (
-      <button ref="button" {...this.props}></button>
+      <button ref={button => { this.references.button = button; }} {...this.props}></button>
     )
   }
 }

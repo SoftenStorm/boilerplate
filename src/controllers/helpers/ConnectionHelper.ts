@@ -21,39 +21,20 @@ if (["staging", "production"].indexOf(process.env.NODE_ENV) == -1) {
 }
 
 if (process.env.VOLATILE_MEMORY_KEY) {
-  const connectionURL = new URL(process.env[process.env.VOLATILE_MEMORY_KEY]);
   const _default = redis.createClient({
-    host: connectionURL.host.split(':')[0],
-    user: connectionURL.username,
-    password: connectionURL.password,
-    port: connectionURL.port
+    url: process.env[process.env.VOLATILE_MEMORY_KEY]
   });
 
   VolatileMemoryClient = {
     default: _default,
-    get: (key: any): Promise<any> => {
-      return new Promise(async (resolve, reject) => {
-        _default.get(key, (error, reply) => {
-          if (error) reject(error);
-          else resolve(reply);
-        });
-      });
+    get: async (key: string): Promise<string> => {
+      return await _default.get(key);
     },
-    set: (key: any, value: any): Promise<any> => {
-      return new Promise(async (resolve, reject) => {
-        _default.set(key, value, (error, reply) => {
-          if (error) reject(error);
-          else resolve(reply);
-        });
-      });
+    set: async (key: string, value: any): Promise<string> => {
+      return await _default.set(key, value);
     },
-    del: (key: any): Promise<any> => {
-      return new Promise(async (resolve, reject) => {
-        _default.del(key, (error, reply) => {
-          if (error) reject(error);
-          else resolve(reply);
-        });
-      });
+    del: async (key: string): Promise<number> => {
+      return await _default.del(key);
     },
     quit: () => {
       _default.quit();
@@ -68,9 +49,7 @@ if (process.env.RELATIONAL_DATABASE_KEY) {
 }
 if (process.env.DOCUMENT_DATABASE_KEY) {
   const connectionURL = process.env[process.env.DOCUMENT_DATABASE_KEY];
-  DocumentDatabaseClient = new MongoClient(connectionURL, {
-    useUnifiedTopology: true
-  });
+  DocumentDatabaseClient = new MongoClient(connectionURL);
 
   DocumentDatabaseClient._connect = DocumentDatabaseClient.connect;
   DocumentDatabaseClient._connection = null;
@@ -92,12 +71,8 @@ if (process.env.PRIORITIZED_WORKER_KEY) {
   if (process.env.PRIORITIZED_WORKER_KEY == process.env.VOLATILE_MEMORY_KEY) {
     PrioritizedWorkerVolatileMemoryClient = VolatileMemoryClient.default;
   } else {
-    const connectionURL = new URL(process.env[process.env.PRIORITIZED_WORKER_KEY]);
     PrioritizedWorkerVolatileMemoryClient = redis.createClient({
-      host: connectionURL.host.split(':')[0],
-      user: connectionURL.username,
-      password: connectionURL.password,
-      port: connectionURL.port
+      url: process.env[process.env.PRIORITIZED_WORKER_KEY]
     });
   }
   PrioritizedWorkerClient = new sidekiq(PrioritizedWorkerVolatileMemoryClient, process.env.NODE_ENV);

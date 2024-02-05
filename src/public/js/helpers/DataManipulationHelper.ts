@@ -118,14 +118,6 @@ const DataManipulationHelper = {
 
         for (let index = 0; index < elements.length; index++) {
           let element = elements[index];
-
-          // All of inputs are a forwarding element. To get the actual input,
-          // we must look into their children.
-          // 
-          if (element.tagName != 'INPUT') {
-            element = element.firstElementChild;
-          }
-
           let indexes = [];
           let parent = element.parentNode;
 

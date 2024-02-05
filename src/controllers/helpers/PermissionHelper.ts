@@ -6,7 +6,7 @@ import {RequestHelper} from './RequestHelper';
 import {DataTableSchema, DataColumnSchema, DataSchema, SchemaHelper, FieldType} from './SchemaHelper';
 import {ProjectConfigurationHelper} from './ProjectConfigurationHelper';
 import {RelationalDatabaseClient} from './ConnectionHelper';
-import {Md5} from 'md5-typescript';
+import md5 from 'md5';
 
 const cachedPermissions = {};
 
@@ -201,7 +201,7 @@ const PermissionHelper = {
 
                 const COMMAND = `SELECT * FROM ${shortestPath[shortestPath.length - 1].group} ${INNER_JOIN.join(' ')} WHERE ${WHERE_CLAUSE.join(' AND ')} LIMIT 1`;
 
-                const cachedPermissionMD5Key = session.id + Md5.init(JSON.stringify([COMMAND, finalValue]));
+                const cachedPermissionMD5Key = session.id + md5(JSON.stringify([COMMAND, finalValue]));
                 // TODO: find the proper way to cache.
                 // if (!!cachedPermissions[cachedPermissionMD5Key]) {
                 //   flag = (cachedPermissions[cachedPermissionMD5Key] == '__TRUE__');
@@ -228,7 +228,7 @@ const PermissionHelper = {
                   // cachedPermissions[cachedPermissionMD5Key] = (!flag) ? '__FALSE__' : '__TRUE__';
                 }
               } else {
-                const cachedPermissionMD5Key = session.id + Md5.init(JSON.stringify([shortestPath, finalValue]));
+                const cachedPermissionMD5Key = session.id + md5(JSON.stringify([shortestPath, finalValue]));
                 // TODO: find the proper way to cache.
                 // if (!!cachedPermissions[cachedPermissionMD5Key]) {
                 //   flag = (cachedPermissions[cachedPermissionMD5Key] == '__TRUE__');

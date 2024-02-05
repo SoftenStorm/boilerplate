@@ -4,11 +4,11 @@
 import {CodeHelper} from "./CodeHelper";
 import {DataTableSchema, SchemaHelper} from "./SchemaHelper";
 import {ActionType, HierarchicalDataRow} from "./DatabaseHelper";
-import {Md5} from "md5-typescript";
+import md5 from 'md5';
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import {RedisAdapter} from "@socket.io/redis-adapter";
-import {createClient} from "ioredis";
+import Redis from "ioredis";
 
 const ACTIONS = [ActionType.Insert, ActionType.Update, ActionType.Upsert, ActionType.Delete];
 
@@ -186,7 +186,7 @@ const NotificationHelper = {
           if (typeof data === 'object') {
             data.timestamp = `${(new Date()).getTime()}.${socket.emitCount++}`;
 
-            if (!confirmingMessages.hasOwnProperty(uniqueId) || Object.keys(confirmingMessages[uniqueId]).length > (process.env.NOTIFICATION_BUFFER_LENGTH || 128)) {
+            if (!confirmingMessages.hasOwnProperty(uniqueId) || Object.keys(confirmingMessages[uniqueId]).length > (parseInt(process.env.NOTIFICATION_BUFFER_LENGTH || '128'))) {
               delete confirmingMessages[uniqueId];
               socket.unconfirmEmit("command", "refresh");
             } else {
@@ -269,7 +269,7 @@ const NotificationHelper = {
     sortedCustomQueryValues.sort();
 
     const serverTableUpdatingIdentity = sortedCombinationKeys.join("+");
-    const md5OfServerTableUpdatingIdentity = Md5.init(serverTableUpdatingIdentity);
+    const md5OfServerTableUpdatingIdentity = md5(serverTableUpdatingIdentity);
 
     notificationInfos[schema.group][md5OfServerTableUpdatingIdentity] = notificationInfos[schema.group][md5OfServerTableUpdatingIdentity] || {
       keys: sortedCombinationKeys,
@@ -277,7 +277,7 @@ const NotificationHelper = {
     };
 
     const clientTableUpdatingIdentity = [schema.group, ...sortedCustomQueryValues].join();
-    const md5OfClientTableUpdatingIdentity = Md5.init(clientTableUpdatingIdentity);
+    const md5OfClientTableUpdatingIdentity = md5(clientTableUpdatingIdentity);
 
     const combinations = notificationInfos[schema.group][md5OfServerTableUpdatingIdentity]["combinations"];
 
@@ -339,7 +339,7 @@ const NotificationHelper = {
           }
 
           const clientTableUpdatingIdentity = [schema.group, ...sortedCustomQueryValues].join();
-          const md5OfClientTableUpdatingIdentity = Md5.init(clientTableUpdatingIdentity);
+          const md5OfClientTableUpdatingIdentity = md5(clientTableUpdatingIdentity);
 
           if (combinations[md5OfClientTableUpdatingIdentity]) {
             identities[md5OfClientTableUpdatingIdentity] = identities[md5OfClientTableUpdatingIdentity] || {
@@ -507,7 +507,7 @@ const NotificationHelper = {
     // 
     if (process.env[process.env.VOLATILE_MEMORY_KEY]) {
       const redisConnectionURL = process.env[process.env.VOLATILE_MEMORY_KEY];
-      const pubClient = createClient(redisConnectionURL);
+      const pubClient = new Redis(redisConnectionURL);
       const subClient = pubClient.duplicate();
 
       pubClient.on("error", (err) => {

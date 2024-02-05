@@ -1,9 +1,7 @@
-import * as SocketIO from "socket.io";
+import {Server} from "socket.io";
 import fs from "fs";
 import dotenv from "dotenv";
-import {createClient} from "ioredis";
-import * as child from "child_process";
-import {base64id} from "base64id";
+import Redis from "ioredis";
 import {NotificationHelper} from './controllers/helpers/NotificationHelper';
 
 import app from "./app";
@@ -13,36 +11,12 @@ console.log("Initializing server and socket..");
 let socket = null;
 let server = null;
 
-if (["development", "staging", "production", "worker"].indexOf(process.env.NODE_ENV) == -1) {
-  dotenv.config();
-}
-
-if (["development", "staging", "production", "worker"].indexOf(process.env.NODE_ENV) == -1) {
-  child.execSync('kill-port 443');
-
-  const https = require("https");
-
-  // Development SSL
-  const sslkey = fs.readFileSync("localhost.key");
-  const sslcert = fs.readFileSync("localhost.crt");
-  const options = {
-    key: sslkey,
-    cert: sslcert
-  };
-
-  server = https.createServer(options, app).listen(443);
-  socket = SocketIO.listen(server, {
-    pingTimeout: 20000,
-    pingInterval: 25000
-  });
-} else if (["worker"].indexOf(process.env.NODE_ENV) == -1) {
-  child.execSync('kill-port ' + (process.env.PORT || 8000));
-
+if (["worker"].indexOf(process.env.NODE_ENV) == -1) {
   const http = require("http");
 
   // [TODO] Replace and configure production SSL
   server = http.createServer(app).listen(process.env.PORT || 8000);
-  socket = SocketIO.listen(server, {
+  socket = new Server(server, {
     pingTimeout: 20000,
     pingInterval: 25000
   });
@@ -62,7 +36,7 @@ const complete = {};
 
 if (process.env.PRIORITIZED_WORKER_KEY) {
   const redisConnectionURL = process.env[process.env.PRIORITIZED_WORKER_KEY];
-  const redisClientForResque = createClient(redisConnectionURL);
+  const redisClientForResque = new Redis(redisConnectionURL);
   const redisConnectionSettingForResque = {
     redis: redisClientForResque
   };
@@ -79,7 +53,7 @@ if (process.env.PRIORITIZED_WORKER_KEY) {
     }
   };
 
-  const shouldEnableBackgroundJobs = (["development", "staging", "production", "worker"].indexOf(process.env.NODE_ENV) == -1 ||
+  const shouldEnableBackgroundJobs = (["staging", "production", "worker"].indexOf(process.env.NODE_ENV) == -1 ||
     ["worker"].indexOf(process.env.NODE_ENV) != -1);
 
   queue = new Queue({
@@ -93,7 +67,7 @@ if (process.env.PRIORITIZED_WORKER_KEY) {
   );
 
   if (shouldEnableBackgroundJobs) {
-    for (let i = 0; i < (process.env.PRIORITIZED_WORKER_THREAD || 5); i++) {
+    for (let i = 0; i < (parseInt(process.env.PRIORITIZED_WORKER_THREAD || '5')); i++) {
       const worker = new Worker(
         {
           connection: redisConnectionSettingForResque,
@@ -169,29 +143,11 @@ finalize = () => {
   if (["worker"].indexOf(process.env.NODE_ENV) == -1) {
     console.log("Initializing StackBlend router..");
 
-    let endpoint = null;
     try {
-      endpoint = require("./controllers/Endpoint");
       const route = require("./route");
       route.default(app);
     } catch (error) {
-      if (process.env.JEST_WORKER_ID !== undefined) {
-        console.log("\x1b[33m", error, "\x1b[0m");
-      } else {
-        console.log("\x1b[31m", error, "\x1b[0m");
-      }
-      endpoint && endpoint.addRecentError(error);
-    }
-
-    // StackBlend test console
-    // 
-    if (["production"].indexOf(process.env.NODE_ENV) == -1) {
-      const controller = require("./controllers/components/Test");
-
-      app.get("/test/api", controller.index);
-      app.post("/test/api", controller.index);
-      app.put("/test/api", controller.index);
-      app.delete("/test/api", controller.index);
+      console.log("\x1b[31m", error, "\x1b[0m");
     }
 
     console.log("Initialized StackBlend router.");
