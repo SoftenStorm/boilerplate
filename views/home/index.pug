@@ -1,0 +1,103 @@
+//- Auto[Generating:V1]--->
+//- PLEASE DO NOT MODIFY BECAUSE YOUR CHANGES MAY BE LOST.
+
+.
+  <!DOCTYPE html>
+html(lang=headers && headers.language || 'en')
+  head
+    meta(name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0")
+    title.
+      #{headers && headers.title || 'Home'}
+    meta(name="description" content=headers && headers.description || '')
+    meta(name="keywords" content=headers && headers.keywords || '')
+    meta(http-equiv="content-language" content=headers && headers.language || 'en')
+    meta(http-equiv="content-type" content=headers && headers.contentType || 'UTF-8')
+    meta(name="revisit-after" content=headers && headers.revisitAfter || '7 days')
+    meta(name="robots" content=headers && headers.robots || 'index, follow')
+    meta(property="og:title" content=headers && headers.title || 'Home')
+    meta(property="og:url" content=headers && headers.linkUrl || '/')
+    meta(property="og:image" content=headers && headers.imageUrl || '')
+    meta(property="og:type" content=headers && headers.itemType || 'website')
+    meta(property="og:description" content=headers && headers.description || '')
+    meta(property="og:locale" content=headers && headers.contentLocale || 'en_US')
+    include _header.pug
+  body(style="font-family: Inter; font-size: 14px")
+    
+    div(internal-fsb-animation="")
+      div
+        .bg-light.navbar.navbar-expand-md.navbar-light
+          .container-fluid
+            .col-4(style={'height': '50px', 'width': '50px'})
+              svg(style={'height': '100%'})
+                svg.bi.bi-bounding-box-circles(height="50", width="50", xmlns="http://www.w3.org/2000/svg", xmlns:svg="http://www.w3.org/2000/svg")
+                  g.layer
+                    title
+                      | Layer 1
+                    path(d="m13.75,10.89a1.88,1.88 0 1 0 0,3.75a1.88,1.88 0 0 0 0,-3.75m-3.75,1.88a3.75,3.75 0 0 1 7.39,-0.94l15.23,0a3.75,3.75 0 1 1 4.58,4.58l0,15.23a3.75,3.75 0 1 1 -4.58,4.58l-15.23,0a3.75,3.75 0 1 1 -4.58,-4.58l0,-15.23a3.75,3.75 0 0 1 -2.81,-3.64m4.69,3.64l0,15.23c1.31,0.34 2.36,1.39 2.7,2.7l15.23,0a3.75,3.75 0 0 1 2.7,-2.7l0,-15.23a3.75,3.75 0 0 1 -2.7,-2.7l-15.23,0a3.75,3.75 0 0 1 -2.7,2.7m21.57,-5.51a1.88,1.88 0 1 0 0,3.75a1.88,1.88 0 0 0 0,-3.75m-22.5,22.5a1.88,1.88 0 1 0 0,3.75a1.88,1.88 0 0 0 0,-3.75m22.5,0a1.88,1.88 0 1 0 0,3.75a1.88,1.88 0 0 0 0,-3.75", fill="#007fff", id="svg_1")
+            .navbar-brand(style={'align-content': 'flex-start', 'display': 'flex', 'flex-wrap': 'wrap', 'font-size': '18px'})
+              div(style={'display': 'inline'})
+                | Brand
+              div(style={'color': 'rgba(0, 127, 255, 1)', 'display': 'inline', 'font-weight': '500'})
+                | Name
+            button.btn.navbar-toggler(ariaControls="navbarSupportedContent", ariaExpanded="false", ariaLabel="Toggle navigation", data-target="#navbarSupportedContent", data-toggle="collapse", type="button")
+              .navbar-toggler-icon(style={'align-content': 'flex-start;', 'display': 'flex', 'flex-wrap': 'wrap'})
+            .collapse.navbar-collapse(id="navbarSupportedContent")
+              .navbar-nav(style={'width': '100%'})
+                a.-fsb-self-6699111e.active.nav-link
+                  .col-12.offset-0
+                    | Features
+                a.-fsb-preset-6699111e.nav-link(style={'-fsb-inherited-presets': '6699111e'})
+                  .col-12.offset-0
+                    | Testimonials
+                a.-fsb-preset-6699111e.nav-link(style={'-fsb-inherited-presets': '6699111e'})
+                  .col-12.offset-0
+                    | Pricing
+                .col-2(style={'-webkit-flex-grow': '1', 'align-content': 'flex-start', 'display': 'flex', 'flex-grow': '1', 'flex-wrap': 'wrap'})
+                a.-fsb-preset-6699111e.nav-link(style={'-fsb-inherited-presets': '6699111e'})
+                  .col-12.offset-0
+                    | Sign in
+                a.-fsb-preset-6699111e.btn.btn-primary.btn-sm(style={'-fsb-inherited-presets': '6699111e', '-webkit-border-radius': '100px 100px 100px 100px', 'border-radius': '100px 100px 100px 100px', 'font-weight': '500', 'margin-bottom': '3px', 'margin-right': '0px', 'margin-top': '3px', 'padding-bottom': '5px', 'padding-left': '15px', 'padding-right': '15px', 'padding-top': '5px'})
+                  .col-12.offset-0
+                    | Get started
+    script(type="text/javascript" src="/js/Embed.bundle.js")
+    script(type="text/javascript").
+      var Controller = /** @class */ (function () {
+          function Controller() {
+              this.dictionary = {};
+          }
+          Controller.prototype.register = function (guid, eventName, functionName, capturing, forward) {
+              if (!this.dictionary[guid])
+                  this.dictionary[guid] = {};
+              this.dictionary[guid][eventName] = [functionName, capturing, forward];
+          };
+          Controller.prototype.listen = function (guid) {
+              if (this.dictionary[guid]) {
+                  for (var key in this.dictionary[guid]) {
+                      if (this.dictionary[guid].hasOwnProperty(key)) {
+                          var eventName = key;
+                          var functionName = this.dictionary[guid][key][0];
+                          var capturing = !!this.dictionary[guid][key][1];
+                          var forward = this.dictionary[guid][key][2];
+                          var element = (!forward) ? this.getElementUsingGUID(guid) : HTMLHelper.getFirstElementChild(this.getElementUsingGUID(guid));
+                          element.addEventListener(eventName, this[functionName].bind(this), capturing);
+                      }
+                  }
+              }
+          };
+          Controller.prototype.getElementUsingGUID = function (guid) {
+              return document.querySelectorAll('[internal-fsb-guid="' + guid + '"]')[0];
+          };
+          return Controller;
+      }());
+      var controller = new Controller();
+      TestHelper.identify();
+      function ready(a) { "loading" != document.readyState ? a(new Event('ready')) : document.addEventListener ? document.addEventListener("DOMContentLoaded", a) : (document.onreadystatechange = function (e) { "complete" == document.readyState && a(e); }); }
+      ;
+      
+    <link internal-fsb-link="true" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" class="internal-fsb-accessory internal-fsb-font">
+    script(type="text/javascript").
+      window.data = !{JSON.stringify(data)};
+    include _footer.pug
+
+//- <--- Auto[Generating:V1]
+//- PLEASE DO NOT MODIFY BECAUSE YOUR CHANGES MAY BE LOST.
