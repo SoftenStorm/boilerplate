@@ -21,7 +21,7 @@ html(lang=headers && headers.language || 'en')
     meta(property="og:description" content=headers && headers.description || '')
     meta(property="og:locale" content=headers && headers.contentLocale || 'en_US')
     include _header.pug
-  body(style="color: rgba(48, 48, 48, 1); font-family: Inter; font-size: 14px")
+  body(style="-ms-overflow-x: hidden; -ms-overflow-y: auto; color: rgba(48, 48, 48, 1); font-family: Inter; font-size: 14px; height: 100vh; overflow-x: hidden; overflow-y: auto; width: 100vw")
     
     div(internal-fsb-animation="")
       div

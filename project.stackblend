@@ -12,7 +12,7 @@
   "flows": {
     "schema": {}
   },
-  "footerBlobSHA": "a57f08a7d7d7523f3dfedbaf2f12985a3fdd0f0d#375095261",
+  "footerBlobSHA": "205699b810cbe603f06dd6a9b8df86410da02d62#762199177",
   "frontEndComponentsBlobSHADict": {},
   "globalSettings": {
     "colorSwatches": [
@@ -85,7 +85,7 @@
       "body": [
         "<body",
         "    class=\"\"",
-        "    style=\"color: rgba(48, 48, 48, 1); font-family: Inter; font-size: 14px\">",
+        "    style=\"-ms-overflow-x: hidden; -ms-overflow-y: auto; color: rgba(48, 48, 48, 1); font-family: Inter; font-size: 14px; height: 100vh; overflow-x: hidden; overflow-y: auto; width: 100vw\">",
         "<div",
         "    class=\"internal-fsb-begin\"",
         "    internal-fsb-guid=\"0\"",
@@ -806,6 +806,6 @@
   },
   "version": 1.3,
   "viewBlobSHADict": {
-    "index": "e8202a5ca0a9584349b3c427527f71a7f69a1c96#-495146995"
+    "index": "46c6cb9f83d9e199d0ce59c576be8694e28a3651#1642165209"
   }
 }
