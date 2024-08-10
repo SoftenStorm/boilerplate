@@ -36,10 +36,11 @@ Required parameters in the environment file:
 2. RELATIONAL_DATABASE_KEY=POSTGRESQL_URL
 3. MONGODB_URI=
 4. DOCUMENT_DATABASE_KEY=MONGODB_URI
-5. REDIS_URI=
-6. PRIORITIZED_WORKER_KEY=REDIS_URI
-7. VOLATILE_MEMORY_KEY=REDIS_URI
-8. SESSION_SECRET=
+5. DEFAULT_DOCUMENT_DATABASE_NAME=
+6. REDIS_URI=
+7. PRIORITIZED_WORKER_KEY=REDIS_URI
+8. VOLATILE_MEMORY_KEY=REDIS_URI
+9. SESSION_SECRET=
 
 Heroku is a cloud platform as a service (PaaS) supporting several programming languages, including Node.js, that you may use a free of Heroku dynos for web and worker to run your project. They also provides a free Heroku Postgres and a free Heroku Redis, too. Moreover, on MongoDB.com, they also provides the database service for free. And to reduce traffics to the dynos, please serving cache through a CDN instead by using a free CDN from Cloudflare to achieve it. They will ask you to enter your credit card, but with all of these with the right data-flow optimization techniques, you can serve the high amount of traffics without any costs.
 
