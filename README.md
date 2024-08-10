@@ -50,8 +50,9 @@ Cloudflare: https://www.cloudflare.com
 Please generate a random string of SESSION_SECRET using:
 
 1. Run "npm install -g generate-secret".
-2. Enter ".env".
-3. Enter "SESSION_SECRET".
+2. Run "generate-secret".
+3. Enter ".env".
+4. Enter "SESSION_SECRET".
 
 Finally, openning the preview URL in your browser by using: https://localhost.stackblend.org.
 
