@@ -136,6 +136,7 @@ finalize = () => {
     require("./controllers/Home");
   } catch (error) {
     console.log(error);
+    try { delete require.cache[require.resolve('./controllers/Home')]; } catch (_) {}   
   }
   console.log("Registered.");
   console.log("Initialized server and socket.");
