@@ -1,7 +1,6 @@
 import express from "express";
 import compression from "compression";
 import session from "express-session";
-import bodyParser from "body-parser";
 import lusca from "lusca";
 import MongoStore from "connect-mongo";
 import path from "path";
@@ -40,8 +39,8 @@ app.use(session({
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
 app.use(compression());
-app.use(bodyParser.json({limit: "50mb"}));
-app.use(bodyParser.urlencoded({limit: "50mb", extended: true}));
+app.use(express.json({limit: "50mb"}));
+app.use(express.urlencoded({limit: "50mb", extended: true}));
 app.use(lusca.xssProtection(true));
 
 // CORS configuration

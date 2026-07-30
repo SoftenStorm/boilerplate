@@ -905,22 +905,14 @@ const DatabaseHelper = {
           rows: []
         };
 
-        const records = await new Promise<any[]>(async (resolve, reject) => {
-          let queryKeys: {[Identifier: string]: any} = {};
-          let queryColumns: {[Identifier: string]: any} = {};
-          let dataKeys: {[Identifier: string]: any} = {};
-          let dataColumns: {[Identifier: string]: any} = {};
+        let queryKeys: {[Identifier: string]: any} = {};
+        let queryColumns: {[Identifier: string]: any} = {};
+        let dataKeys: {[Identifier: string]: any} = {};
+        let dataColumns: {[Identifier: string]: any} = {};
 
-          [queryKeys, queryColumns, dataKeys, dataColumns] = DatabaseHelper.formatKeysAndColumns(embeddingQuery, forwardingSchema, true);
+        [queryKeys, queryColumns, dataKeys, dataColumns] = DatabaseHelper.formatKeysAndColumns(embeddingQuery, forwardingSchema, true);
 
-          await transaction.documentDatabaseConnection.db(DEFAULT_DOCUMENT_DATABASE_NAME).collection(forwardingSchema.group).find(Object.assign({}, queryColumns, queryKeys), {session: transaction.documentDatabaseSession}).toArray((error: any, results: any) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(results);
-            }
-          });
-        });
+        const records = await transaction.documentDatabaseConnection.db(DEFAULT_DOCUMENT_DATABASE_NAME).collection(forwardingSchema.group).find(Object.assign({}, queryColumns, queryKeys), {session: transaction.documentDatabaseSession}).toArray();
 
         for (const record of records) {
           const row = {
@@ -1819,15 +1811,7 @@ const DatabaseHelper = {
               if (!DocumentDatabaseClient) throw new Error('There was an error trying to obtain a connection (not found).');
 
               if (!connectionInfos['documentDatabaseConnection']) connectionInfos['documentDatabaseConnection'] = await DocumentDatabaseClient.connect();
-              records = await new Promise(async (resolve, reject) => {
-                await connectionInfos['documentDatabaseConnection'].db(DEFAULT_DOCUMENT_DATABASE_NAME).collection(baseSchema.group).find().toArray((error: any, results: any) => {
-                  if (error) {
-                    reject(error);
-                  } else {
-                    resolve(results);
-                  }
-                });
-              });
+              records = await connectionInfos['documentDatabaseConnection'].db(DEFAULT_DOCUMENT_DATABASE_NAME).collection(baseSchema.group).find().toArray();
 
               for (const record of records) {
                 const row: any = {
@@ -1935,15 +1919,7 @@ const DatabaseHelper = {
                   records = await map.findAll({where: Object.assign({}, queryColumns, queryKeys), transaction: connectionInfos.relationalDatabaseTransaction}) || [];
                 } else if (input.source == SourceType.Document) {
                   if (!connectionInfos['documentDatabaseConnection']) connectionInfos['documentDatabaseConnection'] = await DocumentDatabaseClient.connect();
-                  records = await new Promise(async (resolve, reject) => {
-                    await connectionInfos['documentDatabaseConnection'].db(DEFAULT_DOCUMENT_DATABASE_NAME).collection(schema.group).find(Object.assign({}, queryColumns, queryKeys), {session: connectionInfos['documentDatabaseSession']}).toArray((error: any, results: any) => {
-                      if (error) {
-                        reject(error);
-                      } else {
-                        resolve(results);
-                      }
-                    });
-                  });
+                  records = await connectionInfos['documentDatabaseConnection'].db(DEFAULT_DOCUMENT_DATABASE_NAME).collection(schema.group).find(Object.assign({}, queryColumns, queryKeys), {session: connectionInfos['documentDatabaseSession']}).toArray();
                 } else if (input.source == SourceType.VolatileMemory) {
                   const _key = schema.group + ':' + JSON.stringify(CodeHelper.sortHashtable(queryKeys));
                   const record = await VolatileMemoryClient.get(_key);
@@ -2194,15 +2170,7 @@ const DatabaseHelper = {
                   await map.destroy({where: Object.assign({}, queryColumns, queryKeys), force: true, transaction: transaction.relationalDatabaseTransaction});
                 }
               } else if (input.source == SourceType.Document) {
-                records = await new Promise(async (resolve, reject) => {
-                  await transaction.documentDatabaseConnection.db(DEFAULT_DOCUMENT_DATABASE_NAME).collection(schema.group).find(Object.assign({}, queryColumns, queryKeys), {session: transaction.documentDatabaseSession}).toArray((error: any, results: any) => {
-                    if (error) {
-                      reject(error);
-                    } else {
-                      resolve(results);
-                    }
-                  });
-                });
+                records = await transaction.documentDatabaseConnection.db(DEFAULT_DOCUMENT_DATABASE_NAME).collection(schema.group).find(Object.assign({}, queryColumns, queryKeys), {session: transaction.documentDatabaseSession}).toArray();
 
                 for (const record of records) {
                   if (!leavePermission && !await PermissionHelper.allowActionOnTable(ActionType.Delete, schema, requestModifyingKeys, record, session, transaction)) throw new Error(`You have no permission to delete any row in ${schema.group}.`);
