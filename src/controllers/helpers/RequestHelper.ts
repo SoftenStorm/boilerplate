@@ -188,7 +188,8 @@ const RequestHelper = {
 
     const json: any = request.body;
 
-    CodeHelper.assertOfPresent(json, 'json');
+    if (json === null || json === undefined) return null;
+
     CodeHelper.recursiveEvaluate(json, (obj: any) => {
       CodeHelper.assertOfSimpleType(obj, 'json', undefined);
     });
@@ -228,7 +229,8 @@ const RequestHelper = {
 
     const json: any = request.body;
 
-    CodeHelper.assertOfPresent(json, 'json');
+    if (json === null || json === undefined) return [];
+
     CodeHelper.recursiveEvaluate(json, (obj: any) => {
       CodeHelper.assertOfSimpleType(obj, 'json', undefined);
     });
@@ -247,7 +249,7 @@ const RequestHelper = {
 
     const json: any = request.body;
 
-    CodeHelper.assertOfPresent(json, 'json');
+    if (json === null || json === undefined) return null;
     CodeHelper.recursiveEvaluate(json, (obj: any) => {
       CodeHelper.assertOfSimpleType(obj, 'json', undefined);
     });
@@ -293,7 +295,8 @@ const RequestHelper = {
 
     const json: any = request.body;
 
-    CodeHelper.assertOfPresent(json, 'json');
+    if (json === null || json === undefined) return null;
+
     CodeHelper.recursiveEvaluate(json, (obj: any) => {
       CodeHelper.assertOfSimpleType(obj, 'json', undefined, {guid: guid});
     });
@@ -341,7 +344,8 @@ const RequestHelper = {
 
     const json: any = request.body;
 
-    CodeHelper.assertOfPresent(json, 'json');
+    if (json === null || json === undefined) return [];
+
     CodeHelper.recursiveEvaluate(json, (obj: any) => {
       CodeHelper.assertOfSimpleType(obj, 'json', undefined, {guid: guid});
     });
