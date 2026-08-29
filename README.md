@@ -4,6 +4,15 @@ The purpose of this repository is for forking and being used with StackBlend pla
 
 Please go to ([https://www.stackblend.com](https://www.stackblend.com)) to get started. Please note that a dedicated GitHub account for StackBlend is recommended while it is underdevelopment.
 
+## Setup your Node.js environment
+Ensure nvm is installed on your system. If it is not installed, follow the official installation guide:
+
+macOS/Linux: [https://github.com/nvm-sh/nvm#installing-and-updating](https://github.com/nvm-sh/nvm#installing-and-updating)
+Windows: [https://github.com/nvm-windows/nvm#installation--update](https://github.com/nvm-windows/nvm#installation--update)
+
+1. nvm install 22.22.3
+2. nvm use 22.22.3
+
 ## Running boilerplate in local machine
 
 You might clone the repository and run it in your local machine for advanced debugging. We recommend to do it, because you can reverse changes or merge conflicts, can change a part of code and see what will be happening, can lint and fix code bugs before deploying, and can install new modules via npm package managing.
@@ -15,7 +24,7 @@ You might clone the repository and run it in your local machine for advanced deb
 5. Run "cd YOUR_PROJECT_NAME".
 6. Run "git remote rename origin boilerplate".
 7. Run "git remote add origin git@github.com:YOUR_ALIAS/YOUR_PROJECT_NAME.git".
-8. Run "git checkout 1.23.0".
+8. Run "git checkout 1.24.0".
 9. Run "git checkout -b staging".
 10. Run "git push --set-upstream origin staging --force".
 11. Run "git checkout -b develop".
@@ -85,13 +94,13 @@ Openning https://YOUR_APP_NAME.herokuapp.com in your browser to see the results.
 This boilerplate is designed for incremental update for any underlying supports of new features in StackBlend Studio. After StackBlend has released a new version, you must merge the new changes into your project, to make it works on StackBlend.org. Please note that for all of the old versions, you must perform "git cherry-pick COMMIT_ID" for all of hotfixes, beginning with a prefix "Hotfix:" in the message, that may apply to your current using version.
 
 1. Run "git stash".
-2. Run "git fetch boilerplate 1.23.0".
-3. Run "git merge 1.23.0 --allow-unrelated-histories".
+2. Run "git fetch boilerplate 1.24.0".
+3. Run "git merge 1.24.0 --allow-unrelated-histories".
 4. Run "git stash apply".
 
 To list all of hotfixes:
 
-1. Run "git checkout 1.23.0".
+1. Run "git checkout 1.24.0".
 2. Run "git pull".
 3. Run "git log --oneline | grep Hotfix".
 4. For each of hotfix, run "git cherry-pick COMMIT_ID".
@@ -110,11 +119,11 @@ To get started:
 6. From Feature Branch, enter "feature/YOUR_NEW_FEATURE_NAME".
 7. From Develop Branch, enter "develop".
 8. From Staging Branch, enter "staging".
-9. From Endpoint, enter "https://localhost.stackblend.org".
+9. From Endpoint, enter "https://localhost:8000".
 
 ## Restoring malformed project files from regular updates
 
-Because we often release regular updates on stackblend.org, which right now is version 1.23.0. If you preferred one that you were working with, please run the editor cloned from the releases of full-stack-blend instead. Where you may find out the current version that you are using from README.md file.
+Because we often release regular updates on stackblend.org, which right now is version 1.24.0. If you preferred one that you were working with, please run the editor cloned from the releases of full-stack-blend instead. Where you may find out the current version that you are using from README.md file.
 
 You might also reset the project files by cloning a boilerplate from the releases with the same version as the editor. Copy only project.stackblend file from your old project to the new one, open it using the editor and navigate to each of pages, components, and popups.
 
