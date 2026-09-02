@@ -6,7 +6,6 @@ import {NotificationHelper} from '../helpers/NotificationHelper';
 import {Project, DeclarationHelper} from '../helpers/DeclarationHelper';
 import {HierarchicalDataTable, HierarchicalDataRow, SourceType} from '../helpers/DataManipulationHelper';
 import React from 'react'; const _React = React;
-import {findDOMNode} from 'react-dom';
 import {createRoot} from 'react-dom/client';
 
 declare let DataManipulationHelper: any;
@@ -279,7 +278,7 @@ class Button extends React.Component {
   }
 
   componentDidMount() {
-    let button = findDOMNode(this.references.button);
+    let button = this.references.button;
 
     if (this.props.onSubmitting) {
       button.addEventListener('submitting', this.props.onSubmitting, false);
